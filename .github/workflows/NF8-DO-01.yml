@@ -3,26 +3,34 @@ name: NF8-DO-01
 on:
   pull_request:
     branches:
-      - 'feature/*'
+      - 'develop'
       
 jobs:
   verif:
+    if: startsWith(github.event.pull_request.head.ref, 'feature/')
     runs-on: ubuntu-latest
+
     strategy: 
       matrix: 
         node-version: [14,16]
+
     steps:
       - name: Vérification de la branche
-        if: ${{github.event.pull_request.head.ref == 'develop'}}
         uses: actions/checkout@v3
-      - name: Setup de Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+
+      - name: uplodad artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: artifact.txt
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Installation des dépendances
-        run: npm ci
-      - name: Test
-        run: npm run test
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
 
                 
 
