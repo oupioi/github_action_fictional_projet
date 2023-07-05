@@ -3,7 +3,7 @@ name: NF8-DO-01
 on:
   pull_request:
     branches:
-      - 'feature/*'
+      - 'develop'
       
 jobs:
   verif:
@@ -13,7 +13,7 @@ jobs:
         node-version: [14,16]
     steps:
       - name: Vérification de la branche
-        if: ${{github.event.pull_request.base.ref == 'develop'}}
+        if: ${{startsWith(github.event.pull_request.head.ref, 'feature/')}}
         uses: actions/checkout@v3
       - name: Setup de Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
