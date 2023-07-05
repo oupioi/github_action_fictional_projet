@@ -1,0 +1,15 @@
+name: NF7-DO-03
+
+on:
+  push:
+    branches:
+      - 'features/*'
+      - 'hotfix/*'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conventional commits
+        if: (!startsWith(github.event.head_commit.message, 'feat/') && !startsWith(github.event.head_commit.message, 'fix/'))
+        run: echo "Invalid commit message"; exit 1
