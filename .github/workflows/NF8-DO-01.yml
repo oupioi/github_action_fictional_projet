@@ -18,6 +18,12 @@ jobs:
       - name: Vérification de la branche
         uses: actions/checkout@v3
 
+      - name: uplodad artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: artifact.txt
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -25,6 +31,7 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+
 
                 
 
